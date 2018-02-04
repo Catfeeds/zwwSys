@@ -58,5 +58,36 @@ function refresh() {
 	});
 };
 
+// 充值管理统计页面，刷新按钮处理
+$('#refresh').click(function() {
+    var myDate = new Date();
+    var year = myDate.getFullYear();
+    var month = myDate.getMonth() + 1;
+    var date = myDate.getDate();
+    // yyyy-mm-dd
+    var formatDate = year + "-" + (month < 10 ? "0" + month : month) + "-" + (date < 10 ? "0" + date : date);
+    var  obj =  {
+        "date": formatDate
+    };
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        dataType: "JSON",
+        contentType : 'application/json',
+        data: JSON.stringify(obj),
+        url: 'pay/insert',
+        async: true,
+        success: function(data) {
+            refresh();
+        },
+        error : function() {
+            window.location.href = "404.html";
+        }
+
+    });
+
+});
+
 
 

@@ -28,8 +28,21 @@ public class TablesUtils {
 		
 		return tableName + "_" + order;
 	}
-	
-	
+
+	/**
+	 * 获取需要查询的表个数
+	 *
+	 * @param maxUserId 最大用户ID
+	 * @param tableName 库表名称
+	 * @return
+	 */
+	public static int getNumberByTable(int maxUserId, String tableName) {
+
+		Integer num = instance().get(tableName);
+		Integer order = maxUserId/num + 1;
+
+		return order;
+	}
 	
 	@SuppressWarnings("serial")
 	public static Map<String, Integer> instance() {

@@ -26,7 +26,31 @@
 		FROM 
 			`operation_recharge_statistics`
 		WHERE effective = "1"
-		ORDER BY create_time DESC
+		ORDER BY `date` DESC
 	</select>
+
+	<!-- 查询该日期的统计信息 -->
+	<select id="queryUserRechargeStatisticsByDate"
+			parameterType="java.lang.String"
+			resultType="java.lang.Integer">
+		SELECT
+			COUNT(id)
+		FROM
+			`operation_recharge_statistics`
+		WHERE effective = "1"
+			AND `date` = #{date}
+	</select>
+
+	<!--更新该日期的统计信息 -->
+	<update id="updateUserRechargeStatisticsInfo"
+			parameterType="java.lang.String">
+		UPDATE
+			`operation_recharge_statistics`
+		SET
+			effective = '0'
+		WHERE
+			`date` = #{date}
+			AND effective = '1'
+	</update>
 
 </mapper>

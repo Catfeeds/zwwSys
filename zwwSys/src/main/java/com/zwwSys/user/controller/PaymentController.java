@@ -60,11 +60,10 @@ public class PaymentController {
 		
 		return app;
 	}
-	
-	
+
 	/**
-	 * 插入
-	 * @param pvo
+	 * 插入数据到【运营充值统计表】
+	 * @param vo
 	 * @return
 	 */
 	@ResponseBody
@@ -73,7 +72,7 @@ public class PaymentController {
 		
 		AppResponseBody app = new AppResponseBody();
 		
-		paymentService.insert(vo.getDate());
+		paymentService.insert(vo.getDate(), false);
 		
 		app.setRetnCode(200);
 		app.setRetnDesc("");

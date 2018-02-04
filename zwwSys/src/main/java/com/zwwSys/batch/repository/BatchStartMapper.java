@@ -1,5 +1,8 @@
 package com.zwwSys.batch.repository;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface BatchStartMapper {
 
 	/**
