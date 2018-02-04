@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwwSys.user.repository.UserMapper" >
+	
+	<!-- 统计总用户量 -->
+	<select id="countAllUsers"
+		resultType="com.zwwSys.user.vo.UserVo">
+		SELECT
+			CASE 
+				WHEN SUM(number) IS NULL THEN 0 
+				ELSE SUM(number) 
+			END  AS totals
+		FROM 
+			`operating_user_statistics`
+		WHERE effective = "1"
+	</select>
+	
+	<!-- 每天总用户量列表 -->
+	<select id="everydayUsers"
+		resultType="com.zwwSys.user.vo.UserVo">
+		SELECT 
+			id AS id, 
+			number AS number, 
+			`date` AS `date`
+		FROM 
+			`operating_user_statistics`
+		WHERE effective = "1"
+		ORDER BY create_time DESC
+	</select>
+
+	<!-- 查询该日期的统计信息 -->
+	<select id="queryUserStatisticsByDate"
+			parameterType="java.lang.String"
+			resultType="java.lang.Integer">
+		SELECT
+			COUNT(id)
+		FROM
+			`operating_user_statistics`
+		WHERE effective = "1"
+			AND `date` = #{date}
+	</select>
+
+	<!--更该日期的统计信息 -->
+	<update id="updateUserStatisticsInfo"
+			parameterType="java.lang.String">
+		UPDATE
+			`operating_user_statistics`
+		SET
+			effective = '0'
+		WHERE
+			`date` = #{date}
+			AND effective = '1'
+	</update>
+
+	<!--更新金币 -->
+	<update id="updateGoldsByUserId"
+		parameterType="com.zwwSys.user.pojo.UserBasePojo">
+		UPDATE 
+			user_base 
+		SET 
+			gold = gold + #{gold} 
+		WHERE 
+			user_id = #{userId}
+		AND 
+			effective = '1'
+	</update>
+	
+	
+	<!-- 抢红包插入充值账单 -->
+  	<insert id="insertRecharge"
+  		parameterType="com.zwwSys.user.pojo.UserRechargeRecordsPojo">
+  		INSERT INTO 
+			${tableName}
+				(
+				user_id,
+				amt,
+				number,
+				kind,
+				out_number,
+				status,
+				billExplain,
+				effective
+				)
+		values
+			(
+			#{userId},
+			#{amt},
+			#{number},
+			7,
+			#{outNumber},
+			1,
+			#{billExplain},
+			1
+			)
+	</insert>
+
+</mapper>

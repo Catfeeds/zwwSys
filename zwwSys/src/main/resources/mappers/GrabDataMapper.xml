@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwwSys.batch.repository.GrabDataMapper" >
+
+	<insert id="insertGrabRegister"
+		parameterType="java.lang.String">
+		INSERT INTO 
+			`operation_grab_statistics` 
+			(
+				`grab_number`,
+				`catch_number`,
+				`date`,
+				effective
+			)
+			${sqlStr}
+	</insert>
+
+
+</mapper>
+
+
+
+
+
+
+
+

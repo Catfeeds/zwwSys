@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwwSys.user.repository.SupplyMapper" >
+	
+	<!--更新金币 -->
+	<update id="updateGoldsByUserId"
+		parameterType="com.zwwSys.user.pojo.UserBasePojo">
+		UPDATE 
+			user_base 
+		SET 
+			gold = gold + #{gold} 
+		WHERE 
+			user_id = #{userId}
+		AND 
+			effective = '1'
+	</update>
+	
+	
+	<!-- 补发金币插入充值账单 -->
+  	<insert id="insertRecharge"
+  		parameterType="com.zwwSys.user.pojo.UserRechargeRecordsPojo">
+  		INSERT INTO 
+			${tableName}
+				(
+				user_id,
+				amt,
+				number,
+				kind,
+				out_number,
+				status,
+				billExplain,
+				effective
+				)
+		values
+			(
+			#{userId},
+			#{amt},
+			#{number},
+			7,
+			#{outNumber},
+			1,
+			#{billExplain},
+			1
+			)
+	</insert>
+	
+	<!-- 金币补发记录 -->
+	<select id="queryRecharges"
+		parameterType="com.zwwSys.user.pojo.UserRechargeRecordsPojo"
+	 	resultType="com.zwwSys.user.vo.UserRechargeRecordsVo">
+		SELECT 
+			id AS id,
+			user_id AS billUserId,
+			amt AS billAmt,
+			create_time AS billTime
+		FROM 
+			${tableName}
+		WHERE 
+			kind = "7"
+			AND effective = '1'
+		ORDER BY create_time DESC
+	
+	</select>
+	
+	
+	
+	<!-- 插入用户获奖记录表 -->
+	<insert id="insertUserAwardRecords"
+		parameterType="com.zwwSys.user.pojo.AwardRecordsPojo">
+		INSERT INTO 
+			${userTableName} 
+		(
+			user_id,
+			machine_id,
+			prize_id,
+			prize_name,
+			prize_number,
+			status,
+			value,
+			courier_company,
+			courier_number,
+			consignee,
+			telephone,
+			message,
+			address,
+			effective
+		)
+ 			SELECT
+	 			#{userId},
+				A.id,
+				B.id,
+				B.prize_name,
+				B.id,
+				'1',
+				B.exchange,
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'1'
+			FROM
+				machine A
+			LEFT JOIN 
+				prize B
+			ON
+				A.prize_id = B.id
+			WHERE 
+				A.id = #{macId}
+			AND A.effective ='1'
+	</insert>
+	
+	
+	<!-- 娃娃列表 -->
+	<select id="queryPrizes"
+		resultType="com.zwwSys.user.vo.PrizeVo">
+		SELECT
+			A.id AS machineId,
+			B.prize_name AS prizeName,
+			B.consume AS consume,
+			B.exchange AS exchange
+		FROM 
+			machine  A
+		LEFT JOIN 
+			prize B
+		ON
+			A.prize_id = B.id
+		WHERE 
+			A.effective = '1'
+			ORDER BY A.update_time  DESC
+	</select>
+
+</mapper>

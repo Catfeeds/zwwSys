@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwwSys.user.repository.GrabMapper" >
+	
+	<!-- 统计总充值量 -->
+	<select id="countAllGrabRecords"
+		resultType="com.zwwSys.user.vo.GrabVo">
+		SELECT 
+			CASE 
+				WHEN SUM(grab_number) IS NULL THEN 0 
+				ELSE SUM(grab_number) 
+			END  AS grabNumbers,
+			CASE 
+				WHEN SUM(catch_number) IS NULL THEN 0 
+				ELSE SUM(catch_number) 
+			END  AS catchNumbers
+		FROM 
+			`operation_grab_statistics`
+		WHERE effective = "1"
+	</select>
+	
+	<!-- 统计每天总用户量 -->
+	<select id="everydayGrabRecords"
+		resultType="com.zwwSys.user.vo.GrabVo">
+		SELECT 
+			`id` AS id,
+			grab_number AS grabNumbers, 
+			catch_number AS catchNumbers,
+			`date` AS date
+		FROM 
+			`operation_grab_statistics`
+		WHERE effective = "1"
+		ORDER BY create_time DESC
+	</select>
+
+</mapper>

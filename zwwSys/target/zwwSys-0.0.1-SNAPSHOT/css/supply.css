@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* 系统补发样式 */
+
+#supply{
+	font-weight: bold;
+	margin: 0px 195px;
+	font-size: 16px;
+}
+
+#supHistory{
+	font-weight: bold;
+	margin: 0px 195px;
+}
+
+#operator{
+	width: 450px; 
+	height: 380px; 
+	float: left;
+	padding: 15px;
+}
+
+#operator span{
+	margin: 15px 0px 0px 0px;
+	font-weight: bold;
+}
+
+#supplyBtn{
+	margin: 0px 195px;
+	font-size: 14px;
+	padding: 5px 10px;
+	border-radius: 3px;
+	background-color: #3e9eff;
+	cursor: pointer;
+}
+
+.submitBtn {
+	border-radius: 3px;
+	margin: 0 auto;
+}
+
+#history{
+	width: 450px; 
+	height: 380px; 
+	float: right;
+	padding: 15px;
+}
+
+.mt-20 {
+	margin-top: -15px;
+}
+
+.table-responsive {
+	margin-top: 5px;
+}
+
+.chouse{
+	font-size: 14px;
+	padding: 5px 10px;
+	border-radius: 3px;
+	background-color: #3e9eff;
+	margin-left: 300px;
+	cursor: pointer;
+}
+

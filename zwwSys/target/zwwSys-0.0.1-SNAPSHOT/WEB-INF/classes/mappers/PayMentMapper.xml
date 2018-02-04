@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwwSys.user.repository.PaymentMapper" >
+	
+	<!-- 统计总充值量 -->
+	<select id="countAllRecharge"
+		resultType="com.zwwSys.user.vo.PaymentVo">
+		SELECT 
+			CASE 
+				WHEN SUM(amount) IS NULL THEN 0 
+				ELSE SUM(amount) 
+			END  AS totals
+		FROM 
+			`operation_recharge_statistics`
+		WHERE effective = "1"
+	</select>
+	
+	<!-- 统计每天总用户量 -->
+	<select id="everydayRecharge"
+		resultType="com.zwwSys.user.vo.PaymentVo">
+		SELECT 
+			`id` AS id,
+			`amount` AS amount, 
+			`date` AS date
+		FROM 
+			`operation_recharge_statistics`
+		WHERE effective = "1"
+		ORDER BY create_time DESC
+	</select>
+
+</mapper>

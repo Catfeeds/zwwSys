@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwwSys.batch.repository.GoldStatisticsMapper" >
+	
+	<!-- 统计平台总金币 -->
+	<select id="queryGoldsByPlat"
+		resultType="com.zwwSys.user.vo.GoldStatisticsVo">
+		SELECT 
+			CASE 
+				WHEN SUM(gold) IS NULL THEN 0 
+				ELSE SUM(gold) 
+			END  AS platformGolds
+		FROM user_base
+		WHERE effective = "1"
+	</select>
+	
+	<!-- 统计红包总金币 -->
+	<select id="queryGoldsByRedPacket"
+		parameterType="java.lang.String"
+		resultType="com.zwwSys.user.vo.GoldStatisticsVo">
+		SELECT 
+			SUM(totals) AS redPacketGolds
+		FROM(
+			${sqlStr}
+		) t
+	</select>
+</mapper>
