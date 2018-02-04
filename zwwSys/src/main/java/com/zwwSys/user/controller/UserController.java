@@ -64,7 +64,7 @@ public class UserController {
 		
 		AppResponseBody app = new AppResponseBody();
 		
-		userService.insert(vo.getDate());
+		userService.insert(vo.getDate(), false);
 		
 		app.setRetnCode(200);
 		app.setRetnDesc("");

@@ -55,22 +55,29 @@ public class UserServiceImpl implements UserService{
 	 * @param date
 	 */
 	@Override
-	public void insert(String date) {
-		// 获取当前日期
-		LocalDate crrDate = LocalDate.now();
-		// 如果当前日期=结束日期，截止当前的统计信息全部更新
-		if (SignConstants.TOTAL_END_DATE.equals(crrDate.toString())) {
-			// 日期每日递减，如果该日期有数据就更新，否则就追加
-			while (true) {
-				updateUserStatisticsInfo(date);
-				if (SignConstants.TOTAL_START_DATE.equals(crrDate.toString())) {
-					break;
-				} else {
-					crrDate = crrDate.minusDays(1);
+	public void insert(String date, boolean batchFlg) {
+
+		if (!batchFlg) {
+			// 不是定时任务的处理
+			// 获取当前日期
+			LocalDate crrDate = LocalDate.now();
+			// 如果当前日期=结束日期，截止当前的统计信息全部更新
+			if (SignConstants.TOTAL_END_DATE.equals(crrDate.toString())) {
+				// 日期每日递减，如果该日期有数据就更新，否则就追加
+				while (true) {
+					updateUserStatisticsInfo(crrDate.toString());
+					if (SignConstants.TOTAL_START_DATE.equals(crrDate.toString())) {
+						break;
+					} else {
+						crrDate = crrDate.minusDays(1);
+					}
 				}
+			} else {
+				updateUserStatisticsInfo(crrDate.toString());
 			}
 		} else {
-			userDataService.getUserRegister(date);
+			// 定时任务的处理
+			updateUserStatisticsInfo(date);
 		}
 		
 	}

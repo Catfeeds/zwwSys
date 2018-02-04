@@ -26,7 +26,7 @@
 		FROM 
 			`operating_user_statistics`
 		WHERE effective = "1"
-		ORDER BY create_time DESC
+		ORDER BY `date` DESC
 	</select>
 
 	<!-- 查询该日期的统计信息 -->
@@ -41,7 +41,7 @@
 			AND `date` = #{date}
 	</select>
 
-	<!--更该日期的统计信息 -->
+	<!--更新该日期的统计信息 -->
 	<update id="updateUserStatisticsInfo"
 			parameterType="java.lang.String">
 		UPDATE

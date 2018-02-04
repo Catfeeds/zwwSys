@@ -20,6 +20,6 @@ public class SignConstants {
 	/**
 	 * 统计结束时间，TODO：发布生产前，该值=发布日期
 	 */
-	public static final String TOTAL_END_DATE = "2017-01-06";
+	public static final String TOTAL_END_DATE = "2018-02-05";
 
 }

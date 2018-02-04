@@ -27,6 +27,6 @@ public interface UserService {
 	/**
 	 * 插入
 	 */
-	public void insert(String date);
+	public void insert(String date, boolean batchFlg);
 	
 }
